@@ -1,6 +1,7 @@
-import { CreateRoom, ExistingRoom } from "../functions"
+import { CreateRoom, ExistingRoom } from "../functions";
 
-export default function Join({ setIscreateRoom,
+export default function Join({
+    setIscreateRoom,
     isCreateroom,
     userName,
     setUserName,
@@ -13,57 +14,66 @@ export default function Join({ setIscreateRoom,
     shareCode,
     setIsChat
 }) {
-    console.log(setRoomCode);
+    console.log(shareCode);
 
     return (
-        <div class="container mt-5" style={{ width: "500px" }}>
+        <div
+            className="container mt-lg-5 p-4"
+            style={{
+                border: '2px solid black',
+                borderRadius: '8px',
+                padding: '20px',
+                boxSizing: 'border-box',
+            }}
+        >
             <div>
-                <h5>Choose room option</h5>
-                <div className="btn-group mb-5" role="group">
+                <div className="btn-group mb-4" role="group">
                     <button
                         onClick={() => setIscreateRoom(true)}
-                        className={`btn btn-sm ${isCreateroom ? 'btn-dark' : 'btn-outline-dark'}`}
+                        className={`btn btn-sm ${isCreateroom || shareCode ? 'btn-dark' : 'btn-outline-dark'}`}
                     >
                         Create Room
                     </button>
                     <button
                         onClick={() => setIscreateRoom(false)}
-                        className={`btn btn-sm ${!isCreateroom ? 'btn-dark' : 'btn-outline-dark'}`}
+                        className={`btn btn-sm ${!isCreateroom && !shareCode ? 'btn-dark' : 'btn-outline-dark'}`}
                     >
                         Join Existing Room
                     </button>
                 </div>
             </div>
 
-
             <label>User Name</label>
-            < input type='text' value={userName} onChange={(e) => setUserName(e.target.value)}
-                className="form-control" />
-            {isCreateroom && <CreateRoom createRoom={createRoom}
-                roomName={roomName}
-                setRoomName={setRoomName}
-                shareCode={shareCode}
-                setIsChat={setIsChat}>
-            </CreateRoom>}
+            <input
+                type="text"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                className="form-control mb-3"
+                style={{
+                    fontSize: '1rem',
+                    padding: '10px',
+                }}
+            />
 
-            {!isCreateroom &&
-                !shareCode &&
-                <ExistingRoom joinRoom={joinRoom}
+            {/* Render Create Room or Existing Room based on conditions */}
+            {(isCreateroom || shareCode) && (
+                <CreateRoom
+                    createRoom={createRoom}
+                    roomName={roomName}
+                    setRoomName={setRoomName}
+                    shareCode={shareCode}
+                    setIsChat={setIsChat}
+                />
+            )}
+
+            {!isCreateroom && !shareCode && (
+                <ExistingRoom
+                    joinRoom={joinRoom}
                     setIsChat={setIsChat}
                     roomCode={roomCode}
-                    setRoomCode={setRoomCode}>
-                </ExistingRoom>
-
-            }
-
-            {shareCode && (<>
-                <input value={shareCode} readOnly />
-                <p>Share this code with your friends and invite them to join</p>
-                <button onClick={() => setIsChat(true)}>NEXT</button>
-
-            </>)}
-
-
+                    setRoomCode={setRoomCode}
+                />
+            )}
         </div>
-    )
+    );
 }

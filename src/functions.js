@@ -1,8 +1,8 @@
-export function CreateRoom({createRoom,
+export function CreateRoom({ createRoom,
     roomName,
     setRoomName,
     shareCode,
-    setIsChat}) {
+    setIsChat }) {
     return (
         <>
             {!shareCode ? <form onSubmit={(e) => {
@@ -14,9 +14,9 @@ export function CreateRoom({createRoom,
                 <button className="btn btn-outline-dark space-btn mt-5" type="submit">Create Room</button>
             </form> :
                 <>
-                    <input value={shareCode} readOnly />
+                    <input value={shareCode} className="form-control space-input " />
                     <p>Share this code with your friends and invite them to join</p>
-                    <button onClick={() => setIsChat(true)}>NEXT</button>
+                    <button onClick={() => setIsChat(true)} className="btn btn-outline-dark space-btn mt-5">Next</button>
                 </>
             }
         </>
@@ -24,49 +24,74 @@ export function CreateRoom({createRoom,
 }
 
 
-export function ExistingRoom({joinRoom,
+export function ExistingRoom({ joinRoom,
     setIsChat,
     roomCode,
     setRoomCode
 }) {
-        console.log(setRoomCode);
-        
+    console.log(setRoomCode);
+
     return (
         <form onSubmit={(e) => {
             e.preventDefault()
             joinRoom()
-            setIsChat(true)
         }}>
             <label className="mt-2">Join room</label>
-            <input type='text' value={roomCode} onChange={(e) => setRoomCode(e.target.value)} className="form-control space-input "/>
-            <button type='submit' className="btn btn-outline space-btn mt-5" >Join Room</button>
+            <input type='text' value={roomCode} onChange={(e) => setRoomCode(e.target.value)} className="form-control space-input " />
+            <button type='submit' className="btn btn-outline-dark space-btn mt-5" >Join Room</button>
         </form>
     )
 
 }
 
-export function MessageBox({ isTyping,
+export function MessageBox({
+    isTyping,
     userTyping,
     message,
     handleTyping,
     setmessage,
-    sendMesage }) {
+    sendMesage
+}) {
     return (
-        <div>
-            {isTyping && <span>{userTyping} is typing...</span>}
-            <form onSubmit={(e) => {
-                e.preventDefault()
-                sendMesage()
-            }}>
-                <input type='text' value={message} onChange={(e) => {
-                    setmessage(e.target.value)
-                    handleTyping()
-                }} className="form-control space-input my-2"/>
-                <button type="submit" className="btn space-btn">Submit</button>
+        <div className="d-flex flex-column-reverse px-lg-3" style={{ height: '100% ', justifyContent: 'flex-end' }}>
 
+     
+            {isTyping && (
+                <div style={{ position: 'absolute', bottom: '60px', left: '14px', color: '#888' }}>
+                    <span>{userTyping} is typing...</span>
+                </div>
+            )}
+
+       
+            <div className="flex-grow-1 overflow-auto py-lg-3">
+         
+            </div>
+
+        
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    sendMesage();
+                }}
+                className="py-2"
+                style={{ position: 'relative' }}
+            >
+                <div className="d-flex align-items-center">
+                    <input
+                        type="text"
+                        value={message}
+                        onChange={(e) => {
+                            setmessage(e.target.value);
+                            handleTyping();
+                        }}
+                        className="form-control me-2"
+                        placeholder="Type a message"
+                    />
+                    <button type="submit" className="btn btn-outline-dark me-2">
+                        Send
+                    </button>
+                </div>
             </form>
-
-
         </div>
-    )
+    );
 }

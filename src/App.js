@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import Join from './pages/join'
 import Room from './pages/room'
 
+
 export default function App() {
   const [socket, setSocket] = useState(null)
   const [messages, setMessages] = useState([])
@@ -41,12 +42,12 @@ export default function App() {
 
     newSocket.on('message', (data) => {
       console.log(data);
+      if (data.roomName) setRoomName(data.roomName)
+
       showNotification(`New message from ${userName}`, data.message)
       setMessages((prevMsg) => [...prevMsg, data])
       setShareCode(data.roomCode)
     })
-
-
 
     return (() => {
       if (socket) {
@@ -63,7 +64,6 @@ export default function App() {
   }
 
   const sendMesage = () => {
-    console.log(message);
     if (socket && message.trim() !== '') {
       socket.emit('room-message', { roomCode, message, userName });
       setmessage('')
@@ -71,8 +71,13 @@ export default function App() {
   }
 
   const joinRoom = () => {
+    if (roomCode.trim() === '') {
+      alert("Please enter Room Name");
+      return;
+    }
     if (socket && roomCode.trim() !== '' && userName.trim() !== '') {
       socket.emit('join-room', { roomCode, userName })
+      setIsChat(true)
     }
   }
 
@@ -98,38 +103,39 @@ export default function App() {
     const code = uuidv4();
     setRoomCode(code);
     if (socket && code.trim() !== '' && userName.trim() !== '') {
-      socket.emit('create-room', { roomCode: code, roomName, });
+      socket.emit('create-room', { roomCode: code, roomName });
       setIscreateRoom(false);
     }
   };
 
   return (
- 
-      <div className='app ' >
-        {!isChat ? <Join setIscreateRoom={setIscreateRoom}
-          isCreateroom={isCreateroom}
-          userName={userName}
-          setUserName={setUserName}
+
+    <div className='app ' >
+      {!isChat ? <Join setIscreateRoom={setIscreateRoom}
+        isCreateroom={isCreateroom}
+        userName={userName}
+        setUserName={setUserName}
+        roomName={roomName}
+        setRoomName={setRoomName}
+        createRoom={createRoom}
+        setRoomCode={setRoomCode}
+        roomCode={roomCode}
+        shareCode={shareCode}
+        setIsChat={setIsChat}
+        joinRoom={joinRoom}></Join> :
+
+        <Room messages={messages}
+          message={message}
           roomName={roomName}
-          setRoomName={setRoomName} 
-          createRoom={createRoom}
-          setRoomCode={setRoomCode}
-          roomCode={roomCode}
-          shareCode={shareCode}
-          setIsChat={setIsChat}
-          joinRoom={joinRoom}></Join> :
-
-          <Room messages={messages}
-            message={message}
-            setmessage={setmessage}
-            handleTyping={handleTyping}
-            sendMesage={sendMesage}
-            isTyping={isTyping}
-            userTyping={userTyping}></Room>
-        }
+          setmessage={setmessage}
+          handleTyping={handleTyping}
+          sendMesage={sendMesage}
+          isTyping={isTyping}
+          userTyping={userTyping}></Room>
+      }
 
 
-      </div>
+    </div>
 
   )
 }
