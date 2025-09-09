@@ -32,7 +32,29 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.custom {
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  box-sizing:border-box;
+  max-width: 800px ;
+}
+
+@media screen and (max-width: 480px) {
+  .custom {
+  border: 2px solid black;
+  border-radius: 0px;
+  padding: 20px;
+  box-sizing:border-box;
+  max-width: 800px;
+  align-self: center;
+  height: 100vh;
+}
 }

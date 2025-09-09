@@ -1,5 +1,6 @@
 import { CreateRoom, ExistingRoom } from "../functions";
 
+
 export default function Join({
     setIscreateRoom,
     isCreateroom,
@@ -18,13 +19,7 @@ export default function Join({
 
     return (
         <div
-            className="container mt-lg-5 p-4"
-            style={{
-                border: '2px solid black',
-                borderRadius: '8px',
-                padding: '20px',
-                boxSizing: 'border-box',
-            }}
+            className=" container custom mt-lg-5 p-4 "         
         >
             <div>
                 <div className="btn-group mb-4" role="group">
@@ -54,8 +49,7 @@ export default function Join({
                     padding: '10px',
                 }}
             />
-
-            {/* Render Create Room or Existing Room based on conditions */}
+            
             {(isCreateroom || shareCode) && (
                 <CreateRoom
                     createRoom={createRoom}

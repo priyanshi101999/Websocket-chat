@@ -13,12 +13,12 @@ export default function Room({
 }) {
     return (
         <div
-            className="container custom  mt-lg-5 p-0"
+            className="container custom mt-lg-5 p-0"
             style={{
                 border: '2px solid black',
                 position: 'relative',
                 overflow: 'hidden',
-                borderRadius : '8px'
+             
             }}
         >
             <h6 className="p-3 px-4 bg-dark text-white">{roomName}</h6>
@@ -64,7 +64,7 @@ export default function Room({
                                             fontSize: '14px',
                                             margin: 0,
                                             padding: 0,
-                                            color: '#A0A0A0', // Light gray for sender's name
+                                            color: '#A0A0A0', 
                                             letterSpacing: '1px',
                                         }}
                                     >
@@ -90,10 +90,10 @@ export default function Room({
                 </ul>
             </div>
 
-            <div
+            <div className="bg-white"
                 style={{
                     position: 'absolute',
-                    bottom: '0', // Keep the message box at the bottom
+                    bottom: '0', 
                     width: '100%',
                     padding: '1rem',
                 }}

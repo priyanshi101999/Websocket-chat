@@ -1,8 +1,19 @@
+import { useState } from "react"
+
 export function CreateRoom({ createRoom,
     roomName,
     setRoomName,
     shareCode,
     setIsChat }) {
+
+    const [Copy, setCopy] = useState(false)
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(shareCode).then((res) => {
+            setCopy(true)
+            setTimeout(() => setCopy(false), 2000)
+        })
+    }
     return (
         <>
             {!shareCode ? <form onSubmit={(e) => {
@@ -14,8 +25,17 @@ export function CreateRoom({ createRoom,
                 <button className="btn btn-outline-dark space-btn mt-5" type="submit">Create Room</button>
             </form> :
                 <>
-                    <input value={shareCode} className="form-control space-input " />
-                    <p>Share this code with your friends and invite them to join</p>
+                    <div className="d-flex align-items-center">
+                        <input value={shareCode} className="form-control w-90 " />
+                        <i
+                            className="bi bi-clipboard ms-3"
+                            style={{ cursor: "pointer", fontSize: "1.2rem" }}
+                            onClick={copyToClipboard}
+                            title="Copy to clipboard"
+                        ></i>
+                    </div>
+                    {Copy ? <p>code copied</p> :
+                        <p>Share this code with your friends and invite them to join</p>}
                     <button onClick={() => setIsChat(true)} className="btn btn-outline-dark space-btn mt-5">Next</button>
                 </>
             }
@@ -53,44 +73,33 @@ export function MessageBox({
     sendMesage
 }) {
     return (
-        <div className="d-flex flex-column-reverse px-lg-3" style={{ height: '100% ', justifyContent: 'flex-end' }}>
-
-     
+        <div >
             {isTyping && (
-                <div style={{ position: 'absolute', bottom: '60px', left: '14px', color: '#888' }}>
-                    <span>{userTyping} is typing...</span>
+                <div style={{ color: '#888', marginBottom: '5px' }}>
+                    {userTyping} is typing...
                 </div>
             )}
 
-       
-            <div className="flex-grow-1 overflow-auto py-lg-3">
-         
-            </div>
-
-        
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
                     sendMesage();
                 }}
-                className="py-2"
-                style={{ position: 'relative' }}
+                className="d-flex"
             >
-                <div className="d-flex align-items-center">
-                    <input
-                        type="text"
-                        value={message}
-                        onChange={(e) => {
-                            setmessage(e.target.value);
-                            handleTyping();
-                        }}
-                        className="form-control me-2"
-                        placeholder="Type a message"
-                    />
-                    <button type="submit" className="btn btn-outline-dark me-2">
-                        Send
-                    </button>
-                </div>
+                <input
+                    type="text"
+                    value={message}
+                    onChange={(e) => {
+                        setmessage(e.target.value);
+                        handleTyping();
+                    }}
+                    className="form-control me-2"
+                    placeholder="Type a message"
+                />
+                <button type="submit" className="btn btn-outline-dark">
+                    Send
+                </button>
             </form>
         </div>
     );

@@ -3,7 +3,7 @@ import { io } from 'socket.io-client'
 import { v4 as uuidv4 } from 'uuid'
 import Join from './pages/join'
 import Room from './pages/room'
-
+import './App.css'
 
 export default function App() {
   const [socket, setSocket] = useState(null)
@@ -133,8 +133,6 @@ export default function App() {
           isTyping={isTyping}
           userTyping={userTyping}></Room>
       }
-
-
     </div>
 
   )
