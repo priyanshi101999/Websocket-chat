@@ -19,7 +19,7 @@ export default function App() {
   const [isChat, setIsChat] = useState(false)
 
   useEffect(() => {
-    const newSocket = io("http://localhost:9090")
+    const newSocket = io("https://websocket-chat-backend-2.onrender.com")
     setSocket(newSocket)
 
 
